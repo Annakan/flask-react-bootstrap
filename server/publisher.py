@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-import time
 import logging
-import coloredlogs
+import time
 import zmq
 
-from names import generate_name
+import coloredlogs
+
+from server.names import generate_name
 
 logger = logging.getLogger()
 zmq_context = zmq.Context()

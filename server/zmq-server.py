@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
 import os
 import time
 
 import zmq
 
-from names import generate_name
+from .names import generate_name
 
 # FRB prefix so it won't clash with auto generated variables of docker compose
 queue_host = os.environ.get("FRB_QUEUE_HOST", "localhost")
@@ -16,7 +16,7 @@ port = os.environ.get("FRB_SERVER_PORT", "5560")
 context = zmq.Context()
 socket = context.socket(zmq.REP)
 connection = "tcp://{}:{}".format(queue_host, port)
-print 'connection', connection, queue_host, port
+print('connection', connection, queue_host, port)
 socket.connect(connection)
 server_id = generate_name()
 
@@ -44,7 +44,7 @@ def log(request):
         "{yellow}{} "
         "{blue}{}{normal}"
     )
-    print msg_template.format(server_id, request['client_id'], request['message'], **colors)
+    print(msg_template.format(server_id, request['client_id'], request['message'], **colors))
 
 
 while True:

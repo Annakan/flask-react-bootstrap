@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
 import os
 import zmq
 import time
 import random
-from names import generate_name
+from .names import generate_name
 
 
 context = zmq.Context()
@@ -15,7 +13,7 @@ context = zmq.Context()
 server = os.environ.get("FRB_QUEUE_HOST", "localhost")
 port = os.environ.get("FRB_CLIENT_PORT", "5559")
 
-print "Connecting to server..."
+print ("Connecting to server...")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://{}:{}".format(server, port))
 
@@ -44,7 +42,7 @@ def log(response):
         "{white}{} "
         "{magenta}{}{normal}"
     )
-    print msg_template.format(client_id, response['server_id'], response['message'], **colors)
+    print((msg_template.format(client_id, response['server_id'], response['message'], **colors)))
 
 
 while True:

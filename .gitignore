@@ -14,3 +14,4 @@ supervisor.pid
 supervisord.pid
 *.log.*
 dist/
+.idea/

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 import os
 import json
-import gevent
-import gevent.monkey
-gevent.monkey.patch_all()
+import eventlet
+import eventlet.monkey
+eventlet.monkey.patch_all()
 
 import zmq.green as zmq
 from subprocess import Popen, PIPE, STDOUT
@@ -55,14 +55,14 @@ def send_js(path):
 def websocket_hello(data):
     logger.info('client connected %s: ', data)
     emit('ready', {'ready': datetime.utcnow().strftime('%B %d, %Y')})
-    gevent.sleep(0)
+    eventlet.sleep(0)
     if int(data.get('connection_attempt', 0)) == 0:
         emit('zeromq', b'Hey, this is a message coming from flask through socket.io\n')
         emit('zeromq', b'as acknowledgement that the client/server connection is healthy. Yay!\n')
     else:
         emit('zeromq', b'reconnected to server\n')
 
-    gevent.sleep(0)
+    eventlet.sleep(0)
 
 
 @socketio.on('zeromq')
@@ -92,7 +92,7 @@ def websocket_zeromq(*args, **kwargs):
                 data = None
                 logger.exception("could not json decode %s", repr(raw))
 
-            gevent.sleep(0)
+            eventlet.sleep(0)
 
 
 @socketio.on('publisher_spawn')
@@ -108,9 +108,9 @@ def websocket_console(*data, **kw):
         if not raw:
             break
 
-        gevent.sleep(0)
-        emit('shell', {'line': unicode(raw, 'utf-8')})
-        gevent.sleep(0)
+        eventlet.sleep(0)
+        emit('shell', {'line': str(raw, 'utf-8')})
+        eventlet.sleep(0)
 
 
 if __name__ == '__main__':
