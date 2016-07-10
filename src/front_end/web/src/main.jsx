@@ -10,7 +10,10 @@ import  '../styles/app.less'
 
 var jQuery = require('jquery');
 var io = require('socket.io-client');
+console.log("io.connect :" + 'http://' + document.domain + ':' + location.port)
 var socket = io.connect('http://' + document.domain + ':' + location.port);
+console.log("io.connected : " + 'http://' + document.domain + ':' + location.port)
+
 var connections = [];
 
 // Then we delete a bunch of code from App and
@@ -21,21 +24,29 @@ const App = React.createClass({
     },
     askForConsole(){
         console.log("ask for ping " + (new Date()).toUTCString());
+        console.log("io.connect" + 'http://' + document.domain + ':' + location.port)
         socket.emit('publisher_spawn', {date: (new Date()).toUTCString});
     },
     render() {
+        console.log("render");
+        // socket.emit("hello", {connection_attempt: connections.length});
         socket.on('connect', function(){
+            // console.log("Hello connect");
             socket.emit("hello", {connection_attempt: connections.length});
             socket.emit("zeromq");
-        })
+            // console.log("Hello connect end");
+        });
         socket.on('ready', function(data){
-            jQuery("#recv").text("Socket.IO connected to Flask at "+ data.ready);
+            jQuery("#recv").append("Socket.IO connected to Flask at "+ data.ready);
             console.log("READY");
         });
         socket.on('zeromq', function(response){
+            // console.log("zeromq message /  response : ", response);
             var data = response.data;
+            // console.log("Extracted data packet :", data);
             switch (response.topic) {
                 case "in":
+                    // console.log("zeromq message IN TYPE ");
                     var parts = [
                         "[from client: ", data.client_id, "]",
                         " ",
@@ -45,6 +56,7 @@ const App = React.createClass({
                     break;
 
                 case "out":
+                    // console.log("zeromq message OUT TYPE ");
                     var parts = [
                         "[from server: ", data.server_id, "]",
                         " ",
@@ -52,18 +64,19 @@ const App = React.createClass({
                     ];
                     jQuery("#zeromq-out-container").prepend(parts.join("") + "\n");
                     break;
+                case "msg":
+                    jQuery("#zeromq-default-container").append(data);
                 default:
-                    jQuery("#zeromq-default-container").prepend(JSON.stringify(data));
+                    // console.log("zeromq message ninout");
+                    jQuery("#zeromq-default-container").append(JSON.stringify(data));
             }
-
-            socket.emit("zeromq");
         });
 
         socket.on('shell', this.onShellReceived);
         return (
             <div className="container-fluid">
                 <Navbar>
-                    <NavBrand>Flask ReactJS</NavBrand>
+                    <NavBrand>Flask ReactJS [Got SHELL !!]</NavBrand>
                     <Nav>
                         <NavItem eventKey={1} href="#">with a hint of Socket.IO and ZeroMQ</NavItem>
                     </Nav>
@@ -81,8 +94,9 @@ const App = React.createClass({
                         </Panel>
                     </div>
                     <div className="col-md-12">
-                        <Panel header="monitor extra" bsStyle="info">
+                        <Panel header="monitor extra" bsStyle="info" >
                             <pre id="zeromq-default-container"></pre>
+                            <pre id="recv">zooom</pre>
                         </Panel>
                     </div>
                 </div>

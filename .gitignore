@@ -1,4 +1,3 @@
-node_modules/
 dist/
 *.woff2
 *.svg
@@ -13,5 +12,11 @@ supervisord.log
 supervisor.pid
 supervisord.pid
 *.log.*
-dist/
 .idea/
+bin/
+eggs/
+develop-eggs/
+parts/
+node_modules/
+*.egg-info
+.installed.cfg

@@ -1,0 +1,8 @@
+include HISTORY.txt
+include README.txt
+include CHANGES.txt
+include CONTRIBUTORS.txt
+include LICENSE
+recursive-include . *.txt *.py *.js *.less *.jsx *.json
+recursive-include web *
+exclude web/nodes_modules

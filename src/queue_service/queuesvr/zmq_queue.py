@@ -6,8 +6,8 @@ from zmq.devices.monitoredqueuedevice import MonitoredQueue
 
 
 def main():
-    in_prefix = bytes('in')
-    out_prefix = bytes('out')
+    in_prefix = b'in'
+    out_prefix = b'out'
     monitoringdevice = MonitoredQueue(zmq.XREP, zmq.XREQ, zmq.PUB, in_prefix, out_prefix)
 
     # client

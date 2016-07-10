@@ -6,7 +6,7 @@ module.exports = {
         "flask-example": path.join(__dirname, 'src', 'main.jsx'),
     },
     output: {
-        filename: "dist/[name].js"
+        filename: "./dist/[name].js"
     },
     module: {
         loaders: [

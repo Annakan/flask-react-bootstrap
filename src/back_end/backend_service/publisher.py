@@ -7,7 +7,7 @@ import zmq
 
 import coloredlogs
 
-from server.names import generate_name
+from .names import generate_name
 
 logger = logging.getLogger()
 zmq_context = zmq.Context()
@@ -37,7 +37,7 @@ def main():
 
             if publisher in socks and socks[publisher] == zmq.POLLOUT:
                 logger.info("sending data %s", url)
-                publisher.send(b" ".join([b'status', bytes(url)]))
+                publisher.send(b" ".join([b'status', bytearray(url,'utf-8')]))
                 if url == 'stop':
                     break
                 else:

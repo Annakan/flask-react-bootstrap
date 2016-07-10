@@ -1,0 +1,5 @@
+coloredlogs==3.1.2
+eventlet>=0.19
+ipdb==0.8.1
+psutil==3.2.2
+pyzmq>=15.0.0
