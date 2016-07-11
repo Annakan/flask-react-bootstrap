@@ -20,3 +20,5 @@ parts/
 node_modules/
 *.egg-info
 .installed.cfg
+.python-version
+**/__pycache__/
