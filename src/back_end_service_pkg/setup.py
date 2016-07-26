@@ -20,7 +20,7 @@ except ImportError:
     )
 
     def read_md(f):
-        return open(f, 'r').read()  # noqa
+        return open(f, 'r', encoding='utf-8').read()  # noqa
 README = os.path.join(os.path.dirname(__file__), 'README.md')
 
 
@@ -45,7 +45,7 @@ init = os.path.join(
     '__init__.py'
 )
 version_line = list(
-    filter(lambda l: l.startswith('VERSION'), open(init))
+    filter(lambda l: l.startswith('VERSION'), open(init, encoding='utf-8'))
 )[0]
 
 # VERSION is a tuple so we need to eval its line of code.
@@ -65,7 +65,7 @@ def strip_comments(l):
 
 def reqs(*f):
     return list(filter(None, [strip_comments(l) for l in open(
-        os.path.join(os.getcwd(), *f)).readlines()]))
+        os.path.join(os.getcwd(), *f), encoding='utf-8').readlines()]))
 
 
 setup(
